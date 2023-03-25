@@ -158,6 +158,7 @@ void createUser(list<User*> &users) {
     users.push_back(newUser);
     saveUsers(users);
     cout << endl << "\n\tUsuario creado exitosamente" << endl;
+    Sleep(1500);
 }
 
 int main() {
@@ -192,7 +193,10 @@ int main() {
     cout << endl;
     if (username == "Admin" && password == "IvanPelon00") {
         cout << "\n\tInicio de sesion exitoso como administrador!" << endl;
-        createUser(users); 
+        Sleep(500);
+        
+        createUser(users);
+        
         goto inicia_Menu;
         
     } else if (validateUser(users, username, password)) {
@@ -312,7 +316,7 @@ int main() {
 
         // Aquí va el código para el menú del programa
     } else {
-        cout << "\n\tUsuario o contraseña incorrectos" << endl;
+        cout << "\n\tUsuario o la clave son incorrectos" << endl;
         trys = trys + 1;
         
         Sleep(1500);
