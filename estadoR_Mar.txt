@@ -1,0 +1,12 @@
+Utilidad/Perdida = C$ 70
+Utilidad bruta = C$ 100
+Costos de venta = C$ 0
+Compras netas = C$ 0
+Compras totales = C$ 0
+Ventas netas = C$ 100
+Utilidad/Perdida = C$ 70
+Utilidad bruta = C$ 100
+Costos de venta = C$ 0
+Compras netas = C$ 0
+Compras totales = C$ 0
+Ventas netas = C$ 100
