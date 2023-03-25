@@ -28,8 +28,6 @@ int trys = 0;
 
 char date[11];
 
-
-
 string datos[] = {
         "Ventas",
         "Devolucion de ventas",
@@ -142,14 +140,14 @@ void createUser(list<User*> &users) {
     string username, password;
     cout << "\n\tIngrese el nombre de usuario: ";
     cin >> username;
-    cout << "\n\tIngrese la contraseña: ";
+    cout << "\n\tIngrese la clave: ";
     password = "";
     char c;
-    while ((c = _getch()) != 13) { // 13 es el código ASCII de la tecla Enter
-        if (c == '\b') { // \b es el código ASCII de la tecla Retroceso
+    while ((c = _getch()) != 13) { // 13 es el cÃ³digo ASCII de la tecla Enter
+        if (c == '\b') { // \b es el cÃ³digo ASCII de la tecla Retroceso
             if (!password.empty()) {
                 password.pop_back();
-                cout << "\b \b"; // Borra el último caracter en la consola
+                cout << "\b \b"; // Borra el Ãºltimo caracter en la consola
             }
         } else {
             password += c;
@@ -177,7 +175,7 @@ int main() {
     string username, password;
     cout << "\n\tIngrese usuario: ";
     cin >> username;
-    cout << "\n\tIngrese contraseña: ";
+    cout << "\n\tIngrese la clave: ";
     password = "";
     char c;
     while ((c = _getch()) != 13) {
@@ -193,12 +191,12 @@ int main() {
     }
     cout << endl;
     if (username == "Admin" && password == "IvanPelon00") {
-        cout << "\n\tInicio de sesión exitoso como administrador!" << endl;
+        cout << "\n\tInicio de sesion exitoso como administrador!" << endl;
         createUser(users); 
         goto inicia_Menu;
         
     } else if (validateUser(users, username, password)) {
-        cout << "\n\tInicio de sesión exitoso!" << endl;
+        cout << "\n\tInicio de sesion exitoso!" << endl;
         
         	Sleep(1500);
         	system("cls");
@@ -312,9 +310,9 @@ int main() {
 		    cout <<"\n";
 		    list2.printReverseList();
 
-        // Aquí va el código para el menú del programa
+        // AquÃ­ va el cÃ³digo para el menÃº del programa
     } else {
-        cout << "\n\tUsuario o contraseña incorrectos" << endl;
+        cout << "\n\tUsuario o contraseÃ±a incorrectos" << endl;
         trys = trys + 1;
         
         Sleep(1500);
@@ -338,4 +336,3 @@ int main() {
     }
     return 0;
 }
-
