@@ -106,7 +106,7 @@ struct User {
 };
 
 void saveUsers(list<User*> users) {
-    ofstream file("users.txt");
+    ofstream file("user.txt");
     for (auto user : users) {
         file << user->username << "," << user->password << endl;
     }
@@ -115,7 +115,7 @@ void saveUsers(list<User*> users) {
 
 list<User*> loadUsers() {
     list<User*> users;
-    ifstream file("users.txt");
+    ifstream file("user.txt");
     string line;
     while (getline(file, line)) {
         string username = line.substr(0, line.find(","));
@@ -191,7 +191,7 @@ int main() {
         }
     }
     cout << endl;
-    if (username == "Admin" && password == "IvanPelon00") {
+    if (username == "Admin" && password == "IvanHacker00") {
         cout << "\n\tInicio de sesion exitoso como administrador!" << endl;
         Sleep(500);
         
