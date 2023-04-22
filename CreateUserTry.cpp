@@ -8,22 +8,24 @@
 #include <cstdio>
 #include <cstring>
 #include <windows.h>
+#include <iomanip>
+#include <sstream>
 
 using namespace std;
 
 struct Node {
 public:
-    double value;
+    long double value;
     string name;
     string date;
     Node* next;
 };
 
-double value;
-double total_v;
-double inv_i;
-double mercad;
-double val_temp;
+long double value;
+long double total_v;
+long double inv_i;
+long double mercad;
+long double val_temp;
 int trys = 0;
 
 char date[11];
@@ -69,21 +71,31 @@ public:
     }
     */
     
-    void printReverse(Node* currentNode) {
+	void printReverse(Node* currentNode) {
     if (currentNode == nullptr) {
         return;
     }
     printReverse(currentNode->next);
+    
     Sleep(100);
     cout << "\t";
-    cout << currentNode->name << " = C$ " << currentNode->value << endl;
-	}
-	
+    cout << currentNode->name << " = ";
+    
+    ostringstream stream;
+    stream << fixed << setprecision(2) << currentNode->value;
+    string str = stream.str();
+    int pos = str.find(".");
+    while (pos > 3) {
+        pos -= 3;
+        str.insert(pos, ",");
+    }
+    cout << str << endl;
+}
+
 	void printReverseList() {
     printReverse(head);
 	}
 
-    
     void saveList(const string& fileName) {
         ofstream outFile(fileName, ios_base::app);
 
@@ -198,8 +210,10 @@ int main() {
         createUser(users);
         
         goto inicia_Menu;
-        
-    } else if (validateUser(users, username, password)) {
+    } else if (username == "Show" && password == "123"){
+    	return 0;
+    	
+	} else if (validateUser(users, username, password)) {
         cout << "\n\tInicio de sesion exitoso!" << endl;
         
         	Sleep(1500);
