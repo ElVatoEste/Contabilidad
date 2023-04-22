@@ -346,7 +346,6 @@ int main() {
 			goto inicia_Menu;
 		}
         
-        
     }
     return 0;
 }
