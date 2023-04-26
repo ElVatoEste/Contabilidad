@@ -62,6 +62,34 @@ string datos[] = {
     "Util_Per_Ejer"
 };
 
+map<int, string> map2 = {{0, "Ventas"},
+                     {1, "Devolucion de ventas"},
+                     {2, "Rebaja sobre ventas"},
+                     {3, "Descuentos sobre ventas"},
+                     {4, "Ventas Netas"},
+                     {5, "Inventario inicial"},
+                     {6, "Compras"},
+                     {7, "Gastos sobre compras"},
+                     {8, "Compras totales"},
+                     {9, "Devolucion sobre compras"},
+                     {10, "Rebaja sobre compras"},
+                     {11, "Descuentos sobre compras"},
+                     {12, "Compras netas"},
+                     {13, "Mercaderia Disponible"},
+                     {14, "Inventario final"},
+                     {15, "Costos de ventas"},
+                     {16, "Utilidad Bruta"},
+                     {17, "Gastos administrativos"},
+                     {18, "Gastos de ventas"},
+                     {19, "Gastos financieros"},
+                     {20, "Utilidad Operacional"},
+                     {21, "Otros gastos"},
+                     {22, "Otros ingresos"},
+                     {23, "Utilidad ante impuestos"},
+                     {24, "IR 30%"},
+                     {25, "Utilidad/Perdida del ejercicio"}};
+
+
 template <typename Key, typename Value>
 Value GetValueForKey(const map<Key, Value>& map, const Key& key) {
     auto it = map.find(key);
@@ -92,6 +120,19 @@ public:
 
 	/*
     void printList() {
+    
+    ifstream file("FileName");
+    string line;
+    while (getline(file, line)) {
+        string username = line.substr(0, line.find(","));
+        string password = line.substr(line.find(",") + 1);
+        User* user = new User{username, password};
+        users.push_back(user);
+    }
+    file.close();
+    return users;
+	}
+	
         Node* currentNode = head;
         while (currentNode != nullptr) { 
             cout << currentNode->name << " = C$ " << currentNode->value << endl;
@@ -108,7 +149,20 @@ public:
     
     Sleep(100);
     cout << "\t";
-    cout << left << setw(30) << currentNode->name;
+    
+	string makk = currentNode->name;
+	int mak;
+	for (int i=0; i<26; i++){
+		
+		if (datos[i]==makk){
+			mak = i;
+			break;
+		}
+	}
+	
+	llave = GetValueForKey(map2, mak);
+	
+	cout << left << setw(30) << llave;
     
     ostringstream stream;
     
@@ -210,34 +264,7 @@ int main() {
 
 	string fileName = "estadoR_" + string(date) + ".txt";
 	
-	    map<int, string> map2 = {{0, "Ventas"},
-                             {1, "Devolucion de ventas"},
-                             {2, "Rebaja sobre ventas"},
-                             {3, "Descuentos sobre ventas"},
-                             {4, "Ventas Netas"},
-                             {5, "Inventario inicial"},
-                             {6, "Compras"},
-                             {7, "Gastos sobre compras"},
-                             {8, "Compras totales"},
-                             {9, "Devolucion sobre compras"},
-                             {10, "Rebaja sobre compras"},
-                             {11, "Descuentos sobre compras"},
-                             {12, "Compras netas"},
-                             {13, "Mercaderia Disponible"},
-                             {14, "Inventario final"},
-                             {15, "Costos de ventas"},
-                             {16, "Utilidad Bruta"},
-                             {17, "Gastos administrativos"},
-                             {18, "Gastos de ventas"},
-                             {19, "Gastos financieros"},
-                             {20, "Utilidad Operacional"},
-                             {21, "Otros gastos"},
-                             {22, "Otros ingresos"},
-                             {23, "Utilidad ante impuestos"},
-                             {24, "IR 30%"},
-                             {25, "Utilidad/Perdida del ejercicio"}};
-	
-	
+
 	inicia_Menu:
 	system("cls");
 	
