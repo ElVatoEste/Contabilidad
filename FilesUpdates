@@ -33,6 +33,35 @@ int trys = 0;
 
 char date[11];
 
+map<int, string> map2 = {{0, "Ventas"},
+                             {1, "Devolucion de ventas"},
+                             {2, "Rebaja sobre ventas"},
+                             {3, "Descuentos sobre ventas"},
+                             {4, "Ventas Netas"},
+                             {5, "Inventario inicial"},
+                             {6, "Compras"},
+                             {7, "Gastos sobre compras"},
+                             {8, "Compras totales"},
+                             {9, "Devolucion sobre compras"},
+                             {10, "Rebaja sobre compras"},
+                             {11, "Descuentos sobre compras"},
+                             {12, "Compras netas"},
+                             {13, "Mercaderia Disponible"},
+                             {14, "Inventario final"},
+                             {15, "Costos de ventas"},
+                             {16, "Utilidad Bruta"},
+                             {17, "Gastos administrativos"},
+                             {18, "Gastos de ventas"},
+                             {19, "Gastos financieros"},
+                             {20, "Utilidad Operacional"},
+                             {21, "Otros gastos"},
+                             {22, "Otros ingresos"},
+                             {23, "Utilidad ante impuestos"},
+                             {24, "IR 30%"},
+                             {25, "Utilidad/Perdida del ejercicio"}};
+	
+	
+
 string datos[] = {
     "Ventas",
     "Dev_Ventas",
@@ -90,21 +119,41 @@ public:
         head = newNode;
     }
 
-	/*
+
     void printList() {
         Node* currentNode = head;
-        while (currentNode != nullptr) { 
-            cout << currentNode->name << " = C$ " << currentNode->value << endl;
-            currentNode = currentNode->next;
-        }
-    }
-    */
+        int i = 0;
+        
+        while (currentNode != nullptr) {
+        	
+        	
+        	llave = GetValueForKey(map2, i);
+            
+            Sleep(100);
+		    cout << "\t";
+		    cout << left << setw(30) << llave;
+		    
+		    ostringstream stream;
+		    
+		    stream << fixed << setprecision(2) << currentNode->value;
+		    string str = stream.str();
+		    int pos = str.find(".");
+		    while (pos > 3) {
+		        pos -= 3;
+		        str.insert(pos, ",");
+		    }
+		    cout << right << setw(10) << str << setfill(' ') << endl;
+		    i = i+1;
+		    currentNode = currentNode->next;
+		}
+	}
     
-	void printReverse(Node* currentNode) {
+	/*void printReverse(Node* currentNode) {
     if (currentNode == nullptr) {
         return;
     }
     printReverse(currentNode->next);
+    
     
     Sleep(100);
     cout << "\t";
@@ -124,14 +173,14 @@ public:
 
 	void printReverseList() {
     printReverse(head);
-	}
+	}*/
 
     void saveList(const string& fileName) {
         ofstream outFile(fileName, ios_base::app);
 
         Node* currentNode = head;
         while (currentNode != nullptr) {
-            outFile << currentNode->name << "," << currentNode->value << endl;
+            outFile << currentNode->name << " " << currentNode->value << endl;
             currentNode = currentNode->next;
         }
 
@@ -210,34 +259,7 @@ int main() {
 
 	string fileName = "estadoR_" + string(date) + ".txt";
 	
-	    map<int, string> map2 = {{0, "Ventas"},
-                             {1, "Devolucion de ventas"},
-                             {2, "Rebaja sobre ventas"},
-                             {3, "Descuentos sobre ventas"},
-                             {4, "Ventas Netas"},
-                             {5, "Inventario inicial"},
-                             {6, "Compras"},
-                             {7, "Gastos sobre compras"},
-                             {8, "Compras totales"},
-                             {9, "Devolucion sobre compras"},
-                             {10, "Rebaja sobre compras"},
-                             {11, "Descuentos sobre compras"},
-                             {12, "Compras netas"},
-                             {13, "Mercaderia Disponible"},
-                             {14, "Inventario final"},
-                             {15, "Costos de ventas"},
-                             {16, "Utilidad Bruta"},
-                             {17, "Gastos administrativos"},
-                             {18, "Gastos de ventas"},
-                             {19, "Gastos financieros"},
-                             {20, "Utilidad Operacional"},
-                             {21, "Otros gastos"},
-                             {22, "Otros ingresos"},
-                             {23, "Utilidad ante impuestos"},
-                             {24, "IR 30%"},
-                             {25, "Utilidad/Perdida del ejercicio"}};
-	
-	
+	    
 	inicia_Menu:
 	system("cls");
 	
@@ -402,7 +424,7 @@ int main() {
 		    Sleep(1500);
 		    system("cls");
 		    cout <<"\n";
-			list.printReverseList();
+			list.printList();
 
 
         // Aquí va el código para el menú del programa
