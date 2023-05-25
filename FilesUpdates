@@ -148,20 +148,28 @@ public:
 		}
 	}
     
-	/*void printReverse(Node* currentNode) {
+void printReverse(Node* currentNode, int& i) {
     if (currentNode == nullptr) {
         return;
     }
-    printReverse(currentNode->next);
+
+    printReverse(currentNode->next, i);
     
+    // Aquí puedes incluir el código para obtener la llave correspondiente a partir de map2
+    llave = GetValueForKey(map2, i);
     
     Sleep(100);
     cout << "\t";
-    cout << left << setw(30) << currentNode->name;
+    cout << left << setw(30) << llave;
     
     ostringstream stream;
     
-    stream << fixed << setprecision(2) << currentNode->value;
+    if (currentNode->value < 0) {
+        stream << fixed << setprecision(2) << -currentNode->value;
+    } else {
+        stream << fixed << setprecision(2) << currentNode->value;
+    }
+    
     string str = stream.str();
     int pos = str.find(".");
     while (pos > 3) {
@@ -169,11 +177,10 @@ public:
         str.insert(pos, ",");
     }
     cout << right << setw(10) << str << setfill(' ') << endl;
+    
+    i++;
 }
 
-	void printReverseList() {
-    printReverse(head);
-	}*/
 
     void saveList(const string& fileName) {
         ofstream outFile(fileName, ios_base::app);
