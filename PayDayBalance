@@ -1,0 +1,665 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <list>
+#include <conio.h>
+#include <chrono>
+#include <ctime>
+#include <cstdio>
+#include <cstring>
+#include <windows.h>
+#include <iomanip>
+#include <sstream>
+#include <iostream>
+#include <map>
+#include <vector>
+ 
+using namespace std;
+
+struct Node {
+public:
+    long double value;
+    string name;
+    string date;
+    Node* next;
+};
+
+string llave;
+long double value;
+long double total_v;
+long double inv_i;
+long double mercad;
+long double val_temp;
+int trys = 0;
+
+char date[11];
+
+map<int, string> map2 = {{0, "Ventas"},
+                             {1, "Devolucion de ventas"},
+                             {2, "Rebaja sobre ventas"},
+                             {3, "Descuentos sobre ventas"},
+                             {4, "Ventas Netas"},
+                             {5, "Inventario inicial"},
+                             {6, "Compras"},
+                             {7, "Gastos sobre compras"},
+                             {8, "Compras totales"},
+                             {9, "Devolucion sobre compras"},
+                             {10, "Rebaja sobre compras"},
+                             {11, "Descuentos sobre compras"},
+                             {12, "Compras netas"},
+                             {13, "Mercaderia Disponible"},
+                             {14, "Inventario final"},
+                             {15, "Costos de ventas"},
+                             {16, "Utilidad Bruta"},
+                             {17, "Gastos administrativos"},
+                             {18, "Gastos de ventas"},
+                             {19, "Gastos financieros"},
+                             {20, "Utilidad Operacional"},
+                             {21, "Otros gastos"},
+                             {22, "Otros ingresos"},
+                             {23, "Utilidad ante impuestos"},
+                             {24, "IR 30%"},
+                             {25, "Utilidad/Perdida del ejercicio"}};
+	
+	
+
+string datos[] = {
+    "Ventas",
+    "Dev_Ventas",
+    "Reb_Ventas",
+    "Desc_Ventas",
+    "Ventas_Netas",
+    "Inv_Ini",
+    "Compras",
+    "Gast_Comp",
+    "Comp_Totales",
+    "Dev_Comp",
+    "Reb_Comp",
+    "Desc_Comp",
+    "Comp_Netas",
+    "Mer_Disponible",
+    "Inv_Final",
+    "Costos_Ventas",
+    "Util_Bruta",
+    "Gast_Admin",
+    "Gast_Ventas",
+    "Gast_Financieros",
+    "Util_Operacional",
+    "Otr_Gastos",
+    "Otr_Ingresos",
+    "Util_Impuestos",
+    "IR_30%",
+    "Util_Per_Ejer"
+};
+
+template <typename Key, typename Value>
+Value GetValueForKey(const map<Key, Value>& map, const Key& key) {
+    auto it = map.find(key);
+    if (it != map.end()) {
+        return it->second;
+    }
+}
+
+template <typename Key, typename Value>
+Value gecho(const map<Key, Value>& map, const Key& key) {
+    auto it = map.find(key);
+    if (it != map.end()) {
+        return it->second;
+    }
+}
+
+class LinkedList {
+public:
+    LinkedList() : head(nullptr) {}
+
+    void add(const string& name, double value) {
+        Node* newNode = new Node();
+        newNode->name = name;
+        newNode->value = value;
+        newNode->next = head;
+        head = newNode;
+    }
+
+void printReverseList() {
+    int i = 0;
+    printReverse(head, i);
+}
+
+void printReverse(Node* currentNode, int& i) {
+    if (currentNode == nullptr) {
+        return;
+    }
+
+    printReverse(currentNode->next, i);
+    
+    // Aquí puedes incluir el código para obtener la llave correspondiente a partir de map2
+    llave = GetValueForKey(map2, i);
+    
+    Sleep(100);
+    cout << "\t";
+    cout << left << setw(30) << llave;
+    
+    ostringstream stream;
+    
+    stream << fixed << setprecision(2) << currentNode->value;
+    string str = stream.str();
+    int pos = str.find(".");
+    while (pos > 3) {
+        pos -= 3;
+        str.insert(pos, ",");
+    }
+    cout << right << setw(13) << str << setfill(' ') << endl;
+    
+    i++;
+}
+
+	void saveList(const string& fileName) {
+	    ofstream outFile(fileName);
+	    if (!outFile) {
+	        cout << "Error al abrir el archivo." << endl;
+	        return;
+	    }
+	
+	    saveListReverse(head, outFile);
+	
+	    outFile.close();
+	}
+	
+	void saveListReverse(Node* currentNode, ofstream& outFile) {
+	    if (currentNode == nullptr) {
+	        return;
+	    }
+	    
+	    saveListReverse(currentNode->next, outFile);
+	    
+	    outFile << currentNode->name << "," << currentNode->value << endl;
+	}
+
+
+private:
+    Node* head;
+};
+
+void leerArchivo(const string& fileName) {
+    ifstream inFile(fileName);
+    if (!inFile) {
+        cout << "Error al abrir el archivo." << endl;
+        return;
+    }
+
+    int i = 0; // Contador
+    string line;
+    while (getline(inFile, line)) {
+        string dato = line.substr(0, line.find(","));
+        string valorStr = line.substr(line.find(",") + 1);
+        long double valor;
+        istringstream iss(valorStr);
+        if (!(iss >> valor)) {
+            cout << "Error al convertir el valor: " << valorStr << endl;
+            continue;
+        }
+
+        // Realizar la manipulación de las variables
+        llave = GetValueForKey(map2, i);
+
+        Sleep(100);
+        cout << "\t";
+        cout << left << setw(30) << llave;
+
+        ostringstream stream;
+        stream << fixed << setprecision(2) << valor;
+        string str = stream.str();
+        int pos = str.find(".");
+        while (pos > 3) {
+            pos -= 3;
+            str.insert(pos, ",");
+        }
+        cout << right << setw(13) << str << setfill(' ') << endl;
+
+        i++;
+    }
+
+    inFile.close();
+}
+
+
+
+struct User {
+    string username; 
+    string password;
+};
+
+void saveUsers(list<User*> users) {
+    ofstream file("user.txt");
+    for (auto user : users) {
+        file << user->username << "," << user->password << endl;
+    }
+    file.close();
+}
+
+list<User*> loadUsers() {
+    list<User*> users;
+    ifstream file("user.txt");
+    string line;
+    while (getline(file, line)) {
+        string username = line.substr(0, line.find(","));
+        string password = line.substr(line.find(",") + 1);
+        User* user = new User{username, password};
+        users.push_back(user);
+    }
+    file.close();
+    return users;
+}
+
+bool validateUser(list<User*> users, string username, string password) {
+    for (auto user : users) {
+        if (user->username == username && user->password == password) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void createUser(list<User*> &users) {
+    string username, password;
+    cout << "\n\tIngrese el nombre de usuario: ";
+    cin >> username;
+    cout << "\n\tIngrese la clave: ";
+    password = "";
+    char c;
+    while ((c = _getch()) != 13) { // 13 es el código ASCII de la tecla Enter
+        if (c == '\b') { // \b es el código ASCII de la tecla Retroceso
+            if (!password.empty()) {
+                password.pop_back();
+                cout << "\b \b"; // Borra el último caracter en la consola
+            }
+        } else {
+            password += c;
+            cout << "*";
+        }
+    }
+    User* newUser = new User{username, password};
+    users.push_back(newUser);
+    saveUsers(users);
+    cout << endl << "\n\tUsuario creado exitosamente" << endl;
+    Sleep(1500);
+}
+
+
+const string FILE_LIST_FILENAME = "file_list.txt"; // Nombre del archivo de lista de archivos
+
+struct FileEntry {
+    string fileName;
+    string creationDateTime;
+};
+
+vector<FileEntry> fileList; // Lista de archivos
+
+void saveFileList() {
+    ofstream outFile(FILE_LIST_FILENAME);
+    if (outFile.is_open()) {
+        for (const FileEntry& entry : fileList) {
+            outFile << entry.fileName << "," << entry.creationDateTime << endl;
+        }
+        outFile.close();
+    }
+}
+
+void loadFileList() {
+    ifstream inFile(FILE_LIST_FILENAME);
+    if (inFile.is_open()) {
+        fileList.clear(); // Limpiar la lista de archivos existente
+        string line;
+        while (getline(inFile, line)) {
+            string fileName = line.substr(0, line.find(","));
+            string creationDateTime = line.substr(line.find(",") + 1);
+            FileEntry entry;
+            entry.fileName = fileName;
+            entry.creationDateTime = creationDateTime;
+            fileList.push_back(entry);
+        }
+        inFile.close();
+    }
+}
+
+void createOrUpdateList(string& fileName) {
+    // Obtener la fecha y hora actual
+    time_t currentTime = time(nullptr);
+    tm* localTime = localtime(&currentTime);
+    char formattedDateTime[50];
+    strftime(formattedDateTime, sizeof(formattedDateTime), "%d-%B -> %H hours:%M min", localTime);
+
+    // Verificar si el nombre de archivo ya existe en la lista
+    bool fileExists = false;
+    for (const FileEntry& entry : fileList) {
+        if (entry.fileName == fileName) {
+            fileExists = true;
+            break;
+        }
+    }
+
+    // Si el archivo ya existe, agregar un sufijo numérico al nombre
+    if (fileExists) {
+        int suffix = 1;
+        string baseFileName = fileName.substr(0, fileName.find_last_of('('));
+        string fileExtension = fileName.substr(fileName.find_last_of('.'));
+        string newFileName = baseFileName + "(" + to_string(suffix) + ")" + fileExtension;
+
+        // Buscar un sufijo numérico disponible
+        while (fileExists) {
+            newFileName = baseFileName + "(" + to_string(suffix) + ")" + fileExtension;
+            fileExists = false;
+            for (const FileEntry& entry : fileList) {
+                if (entry.fileName == newFileName) {
+                    fileExists = true;
+                    break;
+                }
+            }
+            suffix++;
+        }
+
+        // Actualizar el nombre de archivo en la lista
+        FileEntry newFileEntry;
+        newFileEntry.fileName = newFileName;
+        newFileEntry.creationDateTime = formattedDateTime;
+        fileList.push_back(newFileEntry);
+
+        // Actualizar el nombre de archivo en la variable fileName
+        fileName = newFileName;
+    } else {
+        // Agregar el nombre de archivo a la lista
+        FileEntry newFileEntry;
+        newFileEntry.fileName = fileName;
+        newFileEntry.creationDateTime = formattedDateTime;
+        fileList.push_back(newFileEntry);
+    }
+
+    // Guardar la lista de archivos actualizada
+    saveFileList();
+}
+
+
+
+void mostrarListaArchivos() {
+    cout << "\n\tLista de archivos:" << endl;
+    int wawa = 0;
+    for (const FileEntry& entry : fileList) {
+        wawa++;
+        cout << "\t";
+        cout << setw(0) << wawa << ". Nombre: " << setw(25) << left << entry.fileName;
+        cout << " | Fecha de creacion: " << entry.creationDateTime << endl;
+    }
+}
+
+
+
+
+int main() {
+	
+	loadFileList();
+	time_t time_now = time(nullptr);
+	strftime(date, 4, "%b", localtime(&time_now));
+	
+	string fileName = "estadoR_" + string(date) + ".txt";
+	
+	    
+	inicia_Menu:
+	system("cls");
+	
+    list<User*> users = loadUsers();
+    string username, password;
+    cout << "\n\tIngrese usuario: ";
+    cin >> username;
+    cout << "\n\tIngrese la clave: ";
+    password = "";
+    char c;
+    while ((c = _getch()) != 13) {
+        if (c == '\b') {
+            if (!password.empty()) {
+                password.pop_back();
+                cout << "\b \b";
+            }
+        } else {
+            password += c;
+            cout << "*";
+        }
+    }
+    cout << endl;
+    if (username == "Admin" && password == "IvanHacker00") {
+        cout << "\n\tInicio de sesion exitoso como administrador!" << endl;
+        Sleep(500);
+        
+        createUser(users);
+        
+        goto inicia_Menu;
+    } else if (username == "Show" && password == "123"){
+    	return 0;
+    	
+	} else if (validateUser(users, username, password)) {
+        cout << "\n\tInicio de sesion exitoso!";
+        
+        
+        	Sleep(1500);
+        	system("cls");
+        
+        
+        bool exitProgram = false;
+		while (!exitProgram) {
+		        cout << "\n\tSeleccione una opcion:" << endl;
+		        cout << "\n\t1. Crear un estado de resultados" << endl;
+		        cout << "\t2. Acceder a un archivo creado anteriormente" << endl;
+		        cout << "\t3. Salir" << endl;
+		        cout << "\tIngrese el numero de la accion que desea realizar -> ";
+		        int option;
+		        
+		        cin >> option;
+		        
+		        if (option == 1){
+				
+							Sleep(1000);
+							system("cls");
+		 
+						LinkedList list;
+						
+					    for (int i = 0 ; i < 4; i++) {
+					    	
+					    	
+					    	llave = GetValueForKey(map2, i);
+					        cout << "\n\tIngrese el valor de " << llave << " C$ "; 
+					        
+					        cin >> value;
+					        
+					        if (i == 0){
+								total_v = value;
+							}
+							else{
+								total_v = total_v - value;
+							}
+					        
+					        list.add(datos[i], value);
+					        
+					    }
+						
+						list.add(datos[4] , total_v);
+						
+						llave = GetValueForKey(map2, 5);
+					    cout << "\n\tIngrese el valor de " << llave << " C$ "; 
+					    
+					    cin >> value;
+					    inv_i = value;
+					    list.add(datos[5], value);
+						
+						for (int i = 6 ; i < 8; i++) {
+					    	
+					        llave = GetValueForKey(map2, i);
+					    	cout << "\n\tIngrese el valor de " << llave << " C$ "; 
+					        cin >> value;
+					        
+							val_temp = val_temp + value;
+					        list.add(datos[i], value);
+					    }
+					    
+					    list.add(datos[8], val_temp);
+					    
+					    for (int i = 9 ; i < 12; i++) {
+					    	
+					        llave = GetValueForKey(map2, i);
+					    	cout << "\n\tIngrese el valor de " << llave << " C$ "; 
+					        cin >> value;
+					        
+							val_temp = val_temp - value;
+					        list.add(datos[i], value);
+					    }
+					    
+					    mercad = inv_i + val_temp ;
+					    
+					    list.add(datos [12], val_temp);
+					    
+					    list.add(datos[13] , mercad);
+					    
+					    llave = GetValueForKey(map2, 14);
+					    cout << "\n\tIngrese el valor de " << llave << " C$ "; 
+					    
+					    cin >> value ;
+					    list.add(datos[14], value);
+					    
+					    long double cost_v = mercad - value;
+					    long double ult_brut = total_v - cost_v;
+					    
+					    list.add(datos[15], cost_v); 
+					    list.add(datos[16], ult_brut);
+					    
+					    long double ult_op = ult_brut;
+					    
+					    for (int i = 17 ; i < 20 ; i++) {
+					    	
+					        llave = GetValueForKey(map2, i);
+							cout << "\n\tIngrese el valor de " << llave << " C$ "; 
+					        cin >> value;
+					        
+							ult_op = ult_op - value;
+					        list.add(datos[i], value);
+					    }
+					    
+					    list.add(datos[20], ult_op);
+					    
+					    llave = GetValueForKey(map2, 21);
+					    cout << "\n\tIngrese el valor de " << llave << " C$ "; 
+					    
+					    cin >> value;
+					    list.add(datos[21], value);
+					    
+						long double ult_tot = ult_op - value;
+					    
+					    llave = GetValueForKey(map2, 22);
+					    cout << "\n\tIngrese el valor de " << llave << " C$ ";
+					    
+					    cin >> value;
+					    list.add(datos[22], value);
+					    
+					    ult_tot = ult_tot + value;
+					    list.add(datos[23], ult_tot);
+					    
+					    long double i_r = ult_tot * 0.30;
+					    long double total = ult_tot - i_r;
+					    
+					    list.add(datos[24], i_r);
+					    list.add(datos[25], total);
+					    
+					    
+					    // Guardar la lista en un archivo y mostrarla en la consola
+					    createOrUpdateList(fileName);
+					    list.saveList(fileName);
+					    
+					    cout<<"\n\n\t";
+					    string frase = "Los datos han sido ingresados correctamente...";
+			        	Sleep(1000);
+			    		for (int i = 0; i < frase.size(); i++) {
+					        cout << frase[i];
+					        Sleep(50); // Esperar 500 milisegundos
+					    	}
+					    
+					    Sleep(1500);
+					    system("cls");
+					    cout <<"\n";
+					    
+					    list.printReverseList();
+					    cout << "\n\t";
+						system("pause");
+						Sleep(1000);
+						system("cls");
+					    
+		    	} else if (option == 2){
+						
+					int opcion2;
+					bool opcion2Valida = false;
+					
+					do {
+					    // Mostrar la lista de archivos disponibles
+					    mostrarListaArchivos();
+					
+					    // Solicitar al usuario que elija un archivo
+					    cout << "\n\n\tSeleccione el numero del archivo que desea abrir (0 para salir): ";
+					    cin >> opcion2;
+					
+					    // Verificar si la opción ingresada es válida
+					    if (opcion2 >= 1 && opcion2 <= fileList.size()) {
+					        opcion2Valida = true;
+					        const FileEntry& selectedFile = fileList[opcion2 - 1];
+					        cout << "\n\tAbriendo el archivo: " << selectedFile.fileName << endl;
+					    	Sleep(2000);
+					    	system("cls");
+					    	cout << endl;
+					        leerArchivo(selectedFile.fileName);
+					        cout << "\n\t";
+							system("pause");
+							Sleep(1000);
+							system("cls");
+							
+					    } else if (opcion2 == 0) {
+					        opcion2Valida = true;
+					        cout << "\n\tSaliendo..." << endl;
+					        cout << "\n\t";
+							Sleep(1000);
+							system("cls");
+					    } else {
+					    	Sleep(1000);
+					    	system("cls");
+					        cout << "\n\tOpcion invalida. Intente nuevamente." << endl;
+					    }
+					} while (!opcion2Valida);
+
+				}	else if (option == 3){
+					
+						exitProgram = true;		
+				} else {
+					cout << "Opción inválida." << endl;
+				}
+			}
+
+    	
+    } else {
+        cout << "\n\tUsuario o la clave son incorrectos" << endl;
+        trys = trys + 1;
+        
+        Sleep(1500);
+        
+        if (trys == 3){
+        	system("cls");
+        	cout << "\n\tUsted a excedido el numero de intentos\n\t";
+        	string frase = "Pum pa casa";
+        	Sleep(500);
+    		for (int i = 0; i < frase.size(); i++) {
+		        cout << frase[i];
+		        Sleep(80); 
+		    	}
+		    cout << "\n\t";
+		    exit(0);
+		}
+		else{
+			goto inicia_Menu;
+		}
+        
+    }
+    return 0;
+}
